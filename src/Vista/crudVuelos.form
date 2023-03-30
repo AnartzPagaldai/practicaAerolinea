@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vista.crudVuelos">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="728" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="8b50e" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="f9620" class="javax.swing.JButton" binding="salirButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Salir"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <toolbar id="24ff3">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="20"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <hspacer id="abbeb">
+            <constraints/>
+          </hspacer>
+          <component id="4687d" class="javax.swing.JButton" binding="crudVuelosButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="crud vuelos"/>
+            </properties>
+          </component>
+          <component id="da35" class="javax.swing.JButton" binding="crudPasajerosButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="crud pasajeros"/>
+            </properties>
+          </component>
+          <component id="c3d8f" class="javax.swing.JButton" binding="consultasButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="consultas"/>
+            </properties>
+          </component>
+          <hspacer id="fc3ed">
+            <constraints/>
+          </hspacer>
+        </children>
+      </toolbar>
+      <toolbar id="cec54">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="20"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <hspacer id="fe1ae">
+            <constraints/>
+          </hspacer>
+          <component id="716ff" class="javax.swing.JButton" binding="crearButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="crear"/>
+            </properties>
+          </component>
+          <component id="41694" class="javax.swing.JButton" binding="artualizarButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="artualizar"/>
+            </properties>
+          </component>
+          <component id="7317b" class="javax.swing.JButton" binding="mostrarVueloButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="mostrar vuelo"/>
+            </properties>
+          </component>
+          <component id="db96c" class="javax.swing.JButton" binding="eliminarVueloButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="eliminar vuelo"/>
+            </properties>
+          </component>
+          <component id="519f" class="javax.swing.JButton" binding="mostrarTodosLosVuelosButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="mostrar todos los vuelos"/>
+            </properties>
+          </component>
+          <hspacer id="f02ac">
+            <constraints/>
+          </hspacer>
+        </children>
+      </toolbar>
+      <vspacer id="2229f">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="3cae3">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+    </children>
+  </grid>
+</form>
