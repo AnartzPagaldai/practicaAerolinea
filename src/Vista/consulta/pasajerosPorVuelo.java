@@ -26,9 +26,11 @@ public class pasajerosPorVuelo {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Main.validarVacios(cod_vuelo.getText());
+                    Main.validarCodigo(cod_vuelo.getText(), true);
+
                 }
                 catch (Exception ex) {
-
+                    error.setText(ex.getMessage());
                 }
             }
         });

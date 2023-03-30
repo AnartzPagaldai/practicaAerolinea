@@ -10,6 +10,8 @@ public class vuelosPorDestinoPlazarLibres {
     private JButton salirButton;
     private JButton aceptarButton;
     private JPanel panel1;
+    private JTable resultado;
+    private JLabel error;
 
     public vuelosPorDestinoPlazarLibres() {
         salirButton.addActionListener(new ActionListener() {

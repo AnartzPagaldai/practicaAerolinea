@@ -84,7 +84,6 @@ public class Main {
         jFrame.pack();
         jFrame.setVisible(true);
 
-        //el los update molaria poner un boton para poder poner el valor por que tine ya
     }
 
 
@@ -190,17 +189,7 @@ public class Main {
 
     public static String[][] mostrarTodosLosPasajeros() throws Exception{
         ArrayList<Pasajero> pasajeros = TPasajeros.mostrarTodosLosPasajeros();
-       if (pasajeros == null) {
-            throw new Exception("ERROR no se a podido hace la selecion");
-       }
-       String[][] resultado = new String[pasajeros.size()][2];
-
-       for (int i = 0; i < pasajeros.size(); i++) {
-           resultado[i][0] = pasajeros.get(i).getDni();
-           resultado[i][1] = pasajeros.get(i).getNombre();
-       }
-
-        return resultado;
+        return devolverDatosDeObjeto(pasajeros, "ERROR no se a podido hace la selecion", 2);
     }
 
     public static String actualizarVuelo(String[] datos) throws Exception{
@@ -213,14 +202,9 @@ public class Main {
     public static String[] mostrarVuelo(String cod_vuelo) throws Exception {
         Vuelo vuelo = TVuelos.mostrarVuelo(cod_vuelo);
         if (vuelo == null) {
-            throw new Exception("Error no se a podido selecionar");
+            throw new Exception();
         }
-        return new String[]{
-                vuelo.getCod_vuelo(),
-                String.valueOf(vuelo.getFechaSalida()),vuelo.getDestino(),
-                vuelo.getProcedencia(), String.valueOf(vuelo.getPlazaTurista()),
-                String.valueOf(vuelo.getPlazaPrimera())
-        };
+        return arrayDeVuelos(vuelo);
     }
 
     public static void annadirColumnasYfilas(DefaultTableModel model, String[] columnas, String[][] filas) {
@@ -246,20 +230,7 @@ public class Main {
 
     public static String[][] mostrarTodosLosVuelos() throws Exception {
         ArrayList<Vuelo> vuelos = TVuelos.mostrarTodosLosVuelos();
-        if (vuelos == null) {
-            throw new Exception("ERROR no se an selecianado los vuelos");
-        }
-        String[][] resultado = new String[vuelos.size()][6];
-        for (int i = 0; i < vuelos.size(); i++) {
-            resultado[i][0] = vuelos.get(i).getCod_vuelo();
-            resultado[i][1] = String.valueOf(vuelos.get(i).getFechaSalida());
-            resultado[i][2] = vuelos.get(i).getDestino();
-            resultado[i][3] = vuelos.get(i).getProcedencia();
-            resultado[i][4] = String.valueOf(vuelos.get(i).getPlazaTurista());
-            resultado[i][5] = String.valueOf(vuelos.get(i).getPlazaPrimera());
-
-        }
-        return resultado;
+        return devolverDatosDeObjeto(vuelos, "ERROR no se an selecianado los vuelos", 6);
     }
 
     public static <T> String[][] devolverDatosDeObjeto(ArrayList<T> objeto, String error, int num) throws Exception {
@@ -270,13 +241,7 @@ public class Main {
         if ( num == 6 ) {
             ArrayList<Vuelo> vuelos = (ArrayList<Vuelo>) objeto;
             for (int i = 0; i < objeto.size(); i++) {
-                resultado[i][0] = vuelos.get(i).getCod_vuelo();
-                resultado[i][1] = String.valueOf(vuelos.get(i).getFechaSalida());
-                resultado[i][2] = vuelos.get(i).getDestino();
-                resultado[i][3] = vuelos.get(i).getProcedencia();
-                resultado[i][4] = String.valueOf(vuelos.get(i).getPlazaTurista());
-                resultado[i][5] = String.valueOf(vuelos.get(i).getPlazaPrimera());
-
+                resultado[i] = arrayDeVuelos(vuelos.get(i));
             }
         }
         else if (num == 2) {
@@ -287,5 +252,13 @@ public class Main {
             }
         }
         return resultado;
+    }
+    public static String[] arrayDeVuelos(Vuelo vuelo) {
+        return new String[]{
+                vuelo.getCod_vuelo(),
+                String.valueOf(vuelo.getFechaSalida()),vuelo.getDestino(),
+                vuelo.getProcedencia(), String.valueOf(vuelo.getPlazaTurista()),
+                String.valueOf(vuelo.getPlazaPrimera())
+        };
     }
 }
