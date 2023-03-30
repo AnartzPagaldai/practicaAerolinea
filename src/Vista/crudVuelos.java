@@ -67,6 +67,12 @@ public class crudVuelos {
                 Main.crearVentana("mostrarTodosLosVuelos");
             }
         });
+        consultasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.crearVentana("consultas");
+            }
+        });
     }
 
     public JPanel getPanel1() {

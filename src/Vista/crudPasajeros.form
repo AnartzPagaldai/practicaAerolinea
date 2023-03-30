@@ -25,6 +25,9 @@
             <properties/>
             <border type="none"/>
             <children>
+              <hspacer id="bedc8">
+                <constraints/>
+              </hspacer>
               <component id="df2fa" class="javax.swing.JButton" binding="crearButton" default-binding="true">
                 <constraints/>
                 <properties>
@@ -55,6 +58,9 @@
                   <text value="mostrar todos los pasajeros"/>
                 </properties>
               </component>
+              <hspacer id="7ff89">
+                <constraints/>
+              </hspacer>
             </children>
           </toolbar>
         </children>

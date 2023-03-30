@@ -4,10 +4,11 @@ import Modelo.Pasajero;
 import Modelo.TPasajeros;
 import Modelo.TVuelos;
 import Modelo.Vuelo;
+
+import Vista.*;
 import Vista.crudPasajero.*;
-import Vista.crudPasajeros;
 import Vista.crudVuelo.*;
-import Vista.crudVuelos;
+import Vista.consultas.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +33,8 @@ public class Main {
     static JFrame mostrarTodosLosVuelos = new JFrame("mostrar todos los vuelos");
 
     static JFrame mostrarTodosLosPasajeros = new JFrame("mostrar todos los pasajeros");
+
+    static JFrame consultas = new JFrame("consultas");
     public static void main(String[] args) {
         crearVentana("crudVuelos");
 
@@ -41,12 +44,16 @@ public class Main {
         JPanel panel1 = null;
         switch (nombreVista) {
             case "crudVuelos" -> {
-                crudPasajeros.dispose();
+                crudPasajeros.dispose(); consultas.dispose();
                 jFrame = crudVuelos ; panel1 = new crudVuelos().getPanel1();
             }
             case "crudPasajeros" -> {
-                crudVuelos.dispose();
+                crudVuelos.dispose(); consultas.dispose();
                 jFrame = crudPasajeros; panel1 = new crudPasajeros().getPanel1();
+            }
+            case "consultas" -> {
+                crudVuelos.dispose(); crudPasajeros.dispose();
+                jFrame = consultas; panel1 = new consultas().getPanel1();
             }
             case "crearVuelos" -> { jFrame = crearVuelos; panel1 = new crearVuelo().getPanel1(); }
             case "insertarPasajero" -> { jFrame = insertarPasajero; panel1 = new insertarPasajero().getPanel1(); }
@@ -74,6 +81,7 @@ public class Main {
         switch (nombreVista) {
             case "crudVuelos" -> crudVuelos.dispose();
             case "crudPasajeros" -> crudPasajeros.dispose();
+            case "consultas" -> consultas.dispose();
             case "crearVuelos" -> crearVuelos.dispose();
             case "insertarPasajero" -> insertarPasajero.dispose();
             case "actualizarPasajero" -> actualizarPasajero.dispose();
