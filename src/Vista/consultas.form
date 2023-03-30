@@ -67,7 +67,7 @@
               <text value="Vuelos por origen"/>
             </properties>
           </component>
-          <component id="5f4ff" class="javax.swing.JButton" binding="vuelosPorDestinoConButton" default-binding="true">
+          <component id="5f4ff" class="javax.swing.JButton" binding="vuelosPorDestinoPlazasLibresButton">
             <constraints/>
             <properties>
               <text value="Vuelos por destino con plazas libres"/>
@@ -108,7 +108,7 @@
           <hspacer id="bd446">
             <constraints/>
           </hspacer>
-          <component id="ae9e0" class="javax.swing.JButton" binding="vuelosPorFechaConButton" default-binding="true">
+          <component id="ae9e0" class="javax.swing.JButton" binding="vuelosPorFechaPlazasLibresButton">
             <constraints/>
             <properties>
               <text value="Vuelos por fecha con plazas libres"/>
@@ -120,10 +120,10 @@
               <text value="Vuelos por pasajero"/>
             </properties>
           </component>
-          <component id="c1cdd" class="javax.swing.JButton" binding="listaDePsajerosPorButton" default-binding="true">
+          <component id="c1cdd" class="javax.swing.JButton" binding="pasajerosPorVueloButton">
             <constraints/>
             <properties>
-              <text value="Lista de psajeros por vuelo"/>
+              <text value="Lista de pasajeros por vuelo"/>
             </properties>
           </component>
           <hspacer id="c941">

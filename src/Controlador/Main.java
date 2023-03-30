@@ -8,7 +8,7 @@ import Modelo.Vuelo;
 import Vista.*;
 import Vista.crudPasajero.*;
 import Vista.crudVuelo.*;
-import Vista.consultas.*;
+import Vista.consulta.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +33,13 @@ public class Main {
     static JFrame mostrarTodosLosVuelos = new JFrame("mostrar todos los vuelos");
 
     static JFrame mostrarTodosLosPasajeros = new JFrame("mostrar todos los pasajeros");
+
+    static JFrame vuelosPorDestino = new JFrame("vuelos por destino");
+    static JFrame vuelosPorOrigen = new JFrame("vuelos por origen");
+    static JFrame vuelosPorDestinoPlazasLibres = new JFrame("vuelos por destino con plazas libres");
+    static JFrame vuelosPorFechaPlazasLibres = new JFrame("vuelos por fecha con plazas libres");
+    static JFrame vuelosPorPasajero = new JFrame("vuelos por pasajero");
+    static JFrame pasajerosPorVuelo = new JFrame("pasajeros por vuelo");
 
     static JFrame consultas = new JFrame("consultas");
     public static void main(String[] args) {
@@ -65,7 +72,12 @@ public class Main {
             case "mostrarVuelo" -> { jFrame = mostrarVuelo; panel1 = new mostrarVuelo().getPanel1();}
             case "eliminarVuelo" -> { jFrame = eliminarVuelo; panel1 = new eliminarVuelo().getPanel1();}
             case "mostrarTodosLosVuelos" -> { jFrame = mostrarTodosLosVuelos; panel1 = new mostrarTodosLosVuelos().getPanel1();}
-            //case "eliminarPasajero" -> { jFrame = eliminarPasajero; panel1 = new eliminarPasajero().getPanel1();}
+            case "vuelosPorDestino" -> { jFrame = vuelosPorDestino; panel1 = new vuelosPorDestino().getPanel1();}
+            case "vuelosPorOrigen" -> { jFrame = vuelosPorOrigen; panel1 = new vuelosPorOrigen().getPanel1();}
+            case "vuelosPorDestinoPlazasLibres" -> { jFrame = vuelosPorDestinoPlazasLibres; panel1 = new vuelosPorDestinoPlazarLibres().getPanel1();}
+            case "vuelosPorFechaPlazasLibres" -> { jFrame = vuelosPorFechaPlazasLibres; panel1 = new vuelosPorFechaPlazasLibres().getPanel1();}
+            case "vuelosPorPasajero" -> { jFrame = vuelosPorPasajero; panel1 = new vuelosPorPasajero().getPanel1();}
+            case "pasajerosPorVuelo" -> { jFrame = pasajerosPorVuelo; panel1 = new pasajerosPorVuelo().getPanel1();}
         }
         jFrame.setContentPane(panel1);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,6 +104,12 @@ public class Main {
             case "mostrarVuelo" -> mostrarVuelo.dispose();
             case "eliminarVuelo" -> eliminarVuelo.dispose();
             case "mostrarTodosLosVuelos" -> mostrarTodosLosVuelos.dispose();
+            case "vuelosPorDestino" -> vuelosPorDestino.dispose();
+            case "vuelosPorOrigen" -> vuelosPorOrigen.dispose();
+            case "vuelosPorDestinoPlazasLibres" -> vuelosPorDestinoPlazasLibres.dispose();
+            case "vuelosPorFechaPlazasLibres" -> vuelosPorFechaPlazasLibres.dispose();
+            case "vuelosPorPasajero" -> vuelosPorPasajero.dispose();
+            case "pasajerosPorVuelo" -> pasajerosPorVuelo.dispose();
         }
     }
 
