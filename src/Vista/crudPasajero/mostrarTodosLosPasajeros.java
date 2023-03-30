@@ -33,7 +33,6 @@ public class mostrarTodosLosPasajeros {
             Main.annadirFilas(modelo, columanas, filas);
             resultado.setModel(modelo);
         } catch (Exception e) {
-            error.setVisible(true);
             error.setText(e.getMessage());
         }
     }

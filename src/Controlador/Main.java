@@ -26,7 +26,7 @@ public class Main {
     static JFrame mostrarPasajero = new JFrame("mostrar pasajero");
     static JFrame eliminarPasajero = new JFrame("eliminar pasajero");
     static JFrame actualizarVuelo = new JFrame("actualizar vuelo");
-    static JFrame mostrarVuelo = new JFrame("mostrarVuelo");
+    static JFrame mostrarVuelo = new JFrame("mostrar vuelo");
 
     static JFrame eliminarVuelo = new JFrame("eliminar vuelo");
     static JFrame mostrarTodosLosVuelos = new JFrame("mostrar todos los vuelos");
@@ -172,7 +172,7 @@ public class Main {
        if (pasajeros == null) {
             throw new Exception("ERROR no se a podido hace la selecion");
        }
-        String[][] resultado = new String[pasajeros.size()][2];
+       String[][] resultado = new String[pasajeros.size()][2];
 
        for (int i = 0; i < pasajeros.size(); i++) {
            resultado[i][0] = pasajeros.get(i).getDni();
@@ -229,10 +229,10 @@ public class Main {
 
     public static String[][] mostrarTodosLosVuelos() throws Exception {
         ArrayList<Vuelo> vuelos = TVuelos.mostrarTodosLosVuelos();
-        String[][] resultado = new String[vuelos.size()][6];
         if (vuelos == null) {
             throw new Exception("ERROR no se an selecianado los vuelos");
         }
+        String[][] resultado = new String[vuelos.size()][6];
         for (int i = 0; i < vuelos.size(); i++) {
             resultado[i][0] = vuelos.get(i).getCod_vuelo();
             resultado[i][1] = String.valueOf(vuelos.get(i).getFechaSalida());
