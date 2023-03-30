@@ -34,8 +34,7 @@ public class mostrarVuelo {
                     String[] columanas = {
                             "CODIGO DEL VUELO", "FECHA DE SALIDA", "DESTINO", "PROCEDENCIA", "PLAZAS TURISTA", "PLAZAS PRIMERA"
                     };
-                    Main.annadirColumnas(model, columanas);
-                    Main.annadirFilas(model, columanas, new String[][]{datos});
+                    Main.annadirColumnasYfilas(model, columanas, new String[][]{datos});
                     resultado.setModel(model);
 
                 }

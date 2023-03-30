@@ -29,8 +29,7 @@ public class mostrarTodosLosPasajeros {
             String[][] filas = Main.mostrarTodosLosPasajeros();
             DefaultTableModel modelo = new DefaultTableModel();
             String[] columanas = {"DNI", "NOMBRE"};
-            Main.annadirColumnas(modelo, columanas);
-            Main.annadirFilas(modelo, columanas, filas);
+            Main.annadirColumnasYfilas(modelo, columanas, filas);
             resultado.setModel(modelo);
         } catch (Exception e) {
             error.setText(e.getMessage());

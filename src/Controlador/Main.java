@@ -116,10 +116,8 @@ public class Main {
     public static String crearVuelo(String[] datos) throws Exception {
        Vuelo vuelo = new Vuelo(datos[0],transfomarYvalidarFecha(datos[1]),datos[2],datos[3],
                                 Integer.parseInt(datos[4]),Integer.parseInt(datos[5]));
-       if (!TVuelos.crearVuelo(vuelo)) {
-           throw new Exception("ERROR no se a insertado el vuelo");
-       }
-       return "se insertado el vuelo";
+       return errorYreturn(!TVuelos.crearVuelo(vuelo),
+               "ERROR no se a insertado el vuelo", "se insertado el vuelo");
     }
 
     public static void validarCodigo(String cod_vuelo, boolean consultarBase) throws Exception {
@@ -156,24 +154,23 @@ public class Main {
 
     public static void validarVacios(String[] datos) throws Exception {
         for (String dato : datos) {
-            if (dato.equals("")) {
-                throw new Exception("no puede haber ningun canpo vacio");
-            }
+            validarVacios(dato);
+        }
+    }
+    public static void validarVacios(String dato) throws Exception {
+        if (dato.equals("")) {
+            throw new Exception("no puede haber ningun campo vacio");
         }
     }
 
     public static String insertarPasajero(String[] datos) throws Exception{
-        if (!TPasajeros.inserTarpasajero(new Pasajero(datos[0], datos[1]))) {
-             throw new Exception("ERROR el pasajero no se a insrtardo");
-        }
-        return "se a insertado el pasajero";
+        return errorYreturn(!TPasajeros.inserTarpasajero(new Pasajero(datos[0], datos[1])),
+                "ERROR el pasajero no se a insrtardo", "se a insertado el pasajero");
     }
 
     public static String actualizarPasajero(String dni, String nombre) throws Exception {
-        if (!TPasajeros.actualizarPasajero(new Pasajero(dni, nombre))){
-            throw new Exception("ERROR el pasajero no se actualizado");
-        }
-        return "pasajero actualizado";
+        return errorYreturn(!TPasajeros.actualizarPasajero(new Pasajero(dni, nombre)),
+                "ERROR el pasajero no se a actualizado", "pasajero actualizado");
     }
 
     public static String mostrarPasajero(String dni) throws Exception{
@@ -187,10 +184,8 @@ public class Main {
     }
 
     public static String eliminarPasajero(String dni) throws Exception{
-        if (!TPasajeros.eliminarPasajero(dni)) {
-            throw new Exception("ERROR el pasajero no se a elminado");
-        }
-        return "pasajero eliminado";
+        return errorYreturn(!TPasajeros.eliminarPasajero(dni),
+                "ERROR el pasajero no se a elminado", "pasajero eliminado");
     }
 
     public static String[][] mostrarTodosLosPasajeros() throws Exception{
@@ -209,48 +204,44 @@ public class Main {
     }
 
     public static String actualizarVuelo(String[] datos) throws Exception{
-
         Vuelo vuelo = new Vuelo(datos[0],transfomarYvalidarFecha(datos[1]),datos[2],datos[3],Integer.parseInt(datos[4]),Integer.parseInt(datos[5]));
 
-        if (!TVuelos.actualizarVuelo(vuelo)) {
-            throw new Exception("ERROR no se a podido actualizar el vuelo");
-        }
-        return "vuelo actualizado";
-
+        return errorYreturn(!TVuelos.actualizarVuelo(vuelo),
+                "ERROR no se a podido actualizar el vuelo", "vuelo actualizado");
     }
 
     public static String[] mostrarVuelo(String cod_vuelo) throws Exception {
         Vuelo vuelo = TVuelos.mostrarVuelo(cod_vuelo);
-        if (vuelo != null) {
-            return new String[]{
-                    vuelo.getCod_vuelo(),
-                    String.valueOf(vuelo.getFechaSalida()),vuelo.getDestino(),
-                    vuelo.getProcedencia(), String.valueOf(vuelo.getPlazaTurista()),
-                    String.valueOf(vuelo.getPlazaPrimera())
-            };
-        } else {
+        if (vuelo == null) {
             throw new Exception("Error no se a podido selecionar");
         }
+        return new String[]{
+                vuelo.getCod_vuelo(),
+                String.valueOf(vuelo.getFechaSalida()),vuelo.getDestino(),
+                vuelo.getProcedencia(), String.valueOf(vuelo.getPlazaTurista()),
+                String.valueOf(vuelo.getPlazaPrimera())
+        };
     }
 
-    public static void annadirColumnas(DefaultTableModel model, String[] columnas) {
+    public static void annadirColumnasYfilas(DefaultTableModel model, String[] columnas, String[][] filas) {
         for (String columna : columnas) {
             model.addColumn(columna);
         }
-    }
-
-    public static void annadirFilas(DefaultTableModel model, String[] columanas, String[][] filas) {
-        model.addRow(columanas);
+        model.addRow(columnas);
         for (String[] fila : filas) {
             model.addRow(fila);
         }
     }
 
     public static String eliminarVuelo(String cod_vuelo) throws Exception {
-        if (!TVuelos.eliminarVuelo(cod_vuelo)) {
-            throw new Exception("ERROR");
+        return errorYreturn(!TVuelos.eliminarVuelo(cod_vuelo), "ERROR", "Vuelo eliminado");
+    }
+
+    public static String errorYreturn(boolean bool, String error, String mensajeRetorno) throws Exception {
+        if (bool) {
+            throw new Exception(error);
         }
-        return "Vuelo eliminado";
+        return mensajeRetorno;
     }
 
     public static String[][] mostrarTodosLosVuelos() throws Exception {
@@ -267,6 +258,33 @@ public class Main {
             resultado[i][4] = String.valueOf(vuelos.get(i).getPlazaTurista());
             resultado[i][5] = String.valueOf(vuelos.get(i).getPlazaPrimera());
 
+        }
+        return resultado;
+    }
+
+    public static <T> String[][] devolverDatosDeObjeto(ArrayList<T> objeto, String error, int num) throws Exception {
+        if (objeto == null) {
+            throw new Exception(error);
+        }
+        String[][] resultado = new String[objeto.size()][num];
+        if ( num == 6 ) {
+            ArrayList<Vuelo> vuelos = (ArrayList<Vuelo>) objeto;
+            for (int i = 0; i < objeto.size(); i++) {
+                resultado[i][0] = vuelos.get(i).getCod_vuelo();
+                resultado[i][1] = String.valueOf(vuelos.get(i).getFechaSalida());
+                resultado[i][2] = vuelos.get(i).getDestino();
+                resultado[i][3] = vuelos.get(i).getProcedencia();
+                resultado[i][4] = String.valueOf(vuelos.get(i).getPlazaTurista());
+                resultado[i][5] = String.valueOf(vuelos.get(i).getPlazaPrimera());
+
+            }
+        }
+        else if (num == 2) {
+            ArrayList<Pasajero> pasajeros = (ArrayList<Pasajero>) objeto;
+            for (int i = 0; i < pasajeros.size(); i++) {
+                resultado[i][0] = pasajeros.get(i).getDni();
+                resultado[i][1] = pasajeros.get(i).getNombre();
+            }
         }
         return resultado;
     }

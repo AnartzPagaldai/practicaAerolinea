@@ -29,8 +29,7 @@ public class mostrarTodosLosVuelos {
             };
             DefaultTableModel model = new DefaultTableModel();
             String[][] filas = Main.mostrarTodosLosVuelos();
-            Main.annadirColumnas(model, columanas);
-            Main.annadirFilas(model, columanas, filas);
+            Main.annadirColumnasYfilas(model, columanas, filas);
             resultado.setModel(model);
         } catch (Exception e) {
             error.setText(e.getMessage());
