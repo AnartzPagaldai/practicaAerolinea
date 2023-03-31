@@ -1,5 +1,7 @@
 package Modelo;
 
+import Controlador.Main;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -114,14 +116,7 @@ public class TVuelos {
             ResultSet result = ps.executeQuery();
             ArrayList<Vuelo> vuelos = new ArrayList<>();
             while(result.next()) {
-                vuelos.add(new Vuelo(
-                        result.getString("cod_vuelo"),
-                        result.getDate("fechaSalida").toLocalDate(),
-                        result.getString("destino"),
-                        result.getString("procedencia"),
-                        result.getInt("plazasTuristas"),
-                        result.getInt("plazasPrimera")
-                ));
+                vuelos.add(Main.getVuelo(result));
             }
             BD.cerrarConexion();
             return vuelos;

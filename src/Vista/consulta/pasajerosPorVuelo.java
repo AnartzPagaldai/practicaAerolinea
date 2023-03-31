@@ -3,6 +3,7 @@ package Vista.consulta;
 import Controlador.Main;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,9 +26,14 @@ public class pasajerosPorVuelo {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    error.setText("");
                     Main.validarVacios(cod_vuelo.getText());
                     Main.validarCodigo(cod_vuelo.getText(), true);
-
+                    String[][] filas = Main.pasajerosPorVuelo(cod_vuelo.getText());
+                    DefaultTableModel model = new DefaultTableModel();
+                    Main.annadirColumnasYfilas(model, new String[]{"DNI", "NOMBRE", "PLAZA"}, filas);
+                    resultado.setModel(model);
+                    // error desconocido
                 }
                 catch (Exception ex) {
                     error.setText(ex.getMessage());

@@ -1,9 +1,6 @@
 package Controlador;
 
-import Modelo.Pasajero;
-import Modelo.TPasajeros;
-import Modelo.TVuelos;
-import Modelo.Vuelo;
+import Modelo.*;
 
 import Vista.*;
 import Vista.crudPasajero.*;
@@ -12,6 +9,7 @@ import Vista.consulta.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -120,21 +118,15 @@ public class Main {
     }
 
     public static void validarCodigo(String cod_vuelo, boolean consultarBase) throws Exception {
-        if (validarPatrones(cod_vuelo, "[A-Z]{3}[0-9]-[0-9]{5}")) {
-            throw new Exception("formato de codigo erroneo");
-        }
+        lazarError(validarPatrones(cod_vuelo, "[A-Z]{3}[0-9]-[0-9]{5}"),"formato de codigo erroneo");
         if (consultarBase) {
-            if(!TVuelos.validarCodigo(cod_vuelo))
-                throw new Exception("ese codigo no esta en la base de datos");
+            lazarError(!TVuelos.validarCodigo(cod_vuelo), "ese codigo no esta en la base de datos");
         }
     }
     public static void validarDni(String dni, boolean consultarBase) throws Exception {
-        if (validarPatrones(dni, "[0-9]{8}[A-Z a-z]")) {
-            throw new Exception("formato de dni erroneo");
-        }
+        lazarError(validarPatrones(dni, "[0-9]{8}[A-Z a-z]"), "formato de dni erroneo");
         if (consultarBase) {
-            if(!TPasajeros.validarDni(dni))
-                throw new Exception("ese dni no esta en la base de datos");
+            lazarError(!TPasajeros.validarDni(dni), "ese dni no esta en la base de datos");
         }
     }
 
@@ -157,9 +149,10 @@ public class Main {
         }
     }
     public static void validarVacios(String dato) throws Exception {
-        if (dato.equals("")) {
-            throw new Exception("no puede haber ningun campo vacio");
-        }
+        lazarError(dato.equals(""), "no puede haber ningun campo vacio");
+    }
+    public static void validarVacios(ArrayList<?> objeto, String error) throws Exception {
+        lazarError(objeto.get(0) == null, error);
     }
 
     public static String insertarPasajero(String[] datos) throws Exception{
@@ -201,9 +194,7 @@ public class Main {
 
     public static String[] mostrarVuelo(String cod_vuelo) throws Exception {
         Vuelo vuelo = TVuelos.mostrarVuelo(cod_vuelo);
-        if (vuelo == null) {
-            throw new Exception();
-        }
+        lazarError(vuelo == null, "ERROR");
         return arrayDeVuelos(vuelo);
     }
 
@@ -222,10 +213,13 @@ public class Main {
     }
 
     public static String errorYreturn(boolean bool, String error, String mensajeRetorno) throws Exception {
+        lazarError(bool, error);
+        return mensajeRetorno;
+    }
+    public static void lazarError(boolean bool, String error) throws Exception {
         if (bool) {
             throw new Exception(error);
         }
-        return mensajeRetorno;
     }
 
     public static String[][] mostrarTodosLosVuelos() throws Exception {
@@ -234,9 +228,8 @@ public class Main {
     }
 
     public static <T> String[][] devolverDatosDeObjeto(ArrayList<T> objeto, String error, int num) throws Exception {
-        if (objeto == null) {
-            throw new Exception(error);
-        }
+        lazarError(objeto == null, error);
+
         String[][] resultado = new String[objeto.size()][num];
         if ( num == 6 ) {
             ArrayList<Vuelo> vuelos = (ArrayList<Vuelo>) objeto;
@@ -244,7 +237,7 @@ public class Main {
                 resultado[i] = arrayDeVuelos(vuelos.get(i));
             }
         }
-        else if (num == 2) {
+        else if (num == 2 || num == 3) {
             ArrayList<Pasajero> pasajeros = (ArrayList<Pasajero>) objeto;
             for (int i = 0; i < pasajeros.size(); i++) {
                 resultado[i][0] = pasajeros.get(i).getDni();
@@ -260,5 +253,28 @@ public class Main {
                 vuelo.getProcedencia(), String.valueOf(vuelo.getPlazaTurista()),
                 String.valueOf(vuelo.getPlazaPrimera())
         };
+    }
+
+    public static String[][] pasajerosPorVuelo(String cod_vuelo) throws Exception {
+        ArrayList<Pasajero> pasajeros = TRegistroVuelos.pasajerosPorVuelo(cod_vuelo);
+        validarVacios(pasajeros, "El vuelo no tiene pasajeros");
+        String[][] datosVuelos = devolverDatosDeObjeto(pasajeros, "Error", 3);
+        ArrayList<String> plazas = TRegistroVuelos.getTipoPlaza();
+        for (int i = 0; i < datosVuelos.length; i++) {
+            datosVuelos[i][3] = plazas.get(i);
+        }
+
+        return datosVuelos;
+    }
+
+    public static Vuelo getVuelo(ResultSet result) throws Exception {
+         return new Vuelo(
+                result.getString("cod_vuelo"),
+                result.getDate("fechaSalida").toLocalDate(),
+                result.getString("destino"),
+                result.getString("procedencia"),
+                result.getInt("plazasTuristas"),
+                result.getInt("plazasPrimera")
+        );
     }
 }
