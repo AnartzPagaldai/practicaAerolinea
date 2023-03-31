@@ -30,6 +30,7 @@ public class TRegistroVuelos {
                         result.getString("dni"),
                         result.getString("nombre")
                 ));
+                tipoPlaza.clear();
                 tipoPlaza.add(result.getString("tipoPlaza"));
             }
             BD.cerrarConexion();
@@ -41,8 +42,6 @@ public class TRegistroVuelos {
         }
     }
     public static ArrayList<String> getTipoPlaza() {
-        ArrayList<String> plaza = tipoPlaza;
-        tipoPlaza.clear();
-        return plaza;
+        return tipoPlaza;
     }
 }

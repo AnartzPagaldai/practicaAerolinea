@@ -10,8 +10,8 @@ public class BD {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/practica1", "root",
-                    "usbw");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/practica1","root",
+                    "");
         } catch (Exception e) {
             System.out.println(" Problemas con la base de datos " +
                     e.getMessage());

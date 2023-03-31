@@ -151,9 +151,6 @@ public class Main {
     public static void validarVacios(String dato) throws Exception {
         lazarError(dato.equals(""), "no puede haber ningun campo vacio");
     }
-    public static void validarVacios(ArrayList<?> objeto, String error) throws Exception {
-        lazarError(objeto.get(0) == null, error);
-    }
 
     public static String insertarPasajero(String[] datos) throws Exception{
         return errorYreturn(!TPasajeros.inserTarpasajero(new Pasajero(datos[0], datos[1])),
@@ -257,11 +254,12 @@ public class Main {
 
     public static String[][] pasajerosPorVuelo(String cod_vuelo) throws Exception {
         ArrayList<Pasajero> pasajeros = TRegistroVuelos.pasajerosPorVuelo(cod_vuelo);
-        validarVacios(pasajeros, "El vuelo no tiene pasajeros");
+        System.out.println(pasajeros);
+
         String[][] datosVuelos = devolverDatosDeObjeto(pasajeros, "Error", 3);
         ArrayList<String> plazas = TRegistroVuelos.getTipoPlaza();
         for (int i = 0; i < datosVuelos.length; i++) {
-            datosVuelos[i][3] = plazas.get(i);
+            datosVuelos[i][2] = plazas.get(i);
         }
 
         return datosVuelos;
@@ -275,7 +273,6 @@ public class Main {
                 result.getString("procedencia"),
                 result.getInt("plazasTuristas"),
                 result.getInt("plazasPrimera")
-            "sopa de macaco"
         );
     }
 }
