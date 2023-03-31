@@ -18,6 +18,7 @@ public class consultas {
     private JButton vuelosPorFechaPlazasLibresButton;
     private JButton vuelosPorPasajeroButton;
     private JButton pasajerosPorVueloButton;
+    private JButton comprarBilleteButton;
 
     public consultas() {
         salirButton.addActionListener(new ActionListener() {
@@ -72,6 +73,12 @@ public class consultas {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.crearVentana("pasajerosPorVuelo");
+            }
+        });
+        comprarBilleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.crearVentana("comprarBillete");
             }
         });
     }

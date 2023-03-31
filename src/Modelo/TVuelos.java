@@ -77,18 +77,11 @@ public class TVuelos {
             ResultSet result = ps.executeQuery();
             Vuelo vuelo = null;
             if (result.next()) {
-                vuelo = new Vuelo(
-                        result.getString("cod_vuelo"),
-                        result.getDate("fechaSalida").toLocalDate(),
-                        result.getString("destino"),
-                        result.getString("procedencia"),
-                        result.getInt("plazasTuristas"),
-                        result.getInt("plazasPrimera")
-                );
+                vuelo = Main.getVuelo(result);
             }
             BD.cerrarConexion();
             return vuelo;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
@@ -126,4 +119,22 @@ public class TVuelos {
             return null;
         }
     }
+    public static ArrayList<Vuelo> mostrarTodosLosVuelos(String select) {
+        try {
+            abriConexion();
+            PreparedStatement ps = con.prepareStatement(select);
+            ResultSet result = ps.executeQuery();
+            ArrayList<Vuelo> vuelos = new ArrayList<>();
+            while(result.next()) {
+                vuelos.add(Main.getVuelo(result));
+            }
+            BD.cerrarConexion();
+            return vuelos;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
 }

@@ -40,6 +40,8 @@ public class Main {
     static JFrame pasajerosPorVuelo = new JFrame("pasajeros por vuelo");
 
     static JFrame consultas = new JFrame("consultas");
+
+    static JFrame comprarBillete = new JFrame("comprarBillete");
     public static void main(String[] args) {
         crearVentana("crudVuelos");
 
@@ -76,6 +78,7 @@ public class Main {
             case "vuelosPorFechaPlazasLibres" -> { jFrame = vuelosPorFechaPlazasLibres; panel1 = new vuelosPorFechaPlazasLibres().getPanel1();}
             case "vuelosPorPasajero" -> { jFrame = vuelosPorPasajero; panel1 = new vuelosPorPasajero().getPanel1();}
             case "pasajerosPorVuelo" -> { jFrame = pasajerosPorVuelo; panel1 = new pasajerosPorVuelo().getPanel1();}
+            case "comprarBillete" -> { jFrame = comprarBillete; panel1 = new comprarBillete().getPanel1(); }
         }
         jFrame.setContentPane(panel1);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,6 +110,7 @@ public class Main {
             case "vuelosPorFechaPlazasLibres" -> vuelosPorFechaPlazasLibres.dispose();
             case "vuelosPorPasajero" -> vuelosPorPasajero.dispose();
             case "pasajerosPorVuelo" -> pasajerosPorVuelo.dispose();
+            case "comprarBillete" -> comprarBillete.dispose();
         }
     }
 

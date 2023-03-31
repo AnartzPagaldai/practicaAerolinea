@@ -17,6 +17,7 @@ public class crudVuelos {
     private JButton mostrarVueloButton;
     private JButton eliminarVueloButton;
     private JButton mostrarTodosLosVuelosButton;
+    private JButton comprarBilleteButton;
 
     public crudVuelos() {
         salirButton.addActionListener(new ActionListener() {
@@ -71,6 +72,12 @@ public class crudVuelos {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.crearVentana("consultas");
+            }
+        });
+        comprarBilleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.crearVentana("comprarBillete");
             }
         });
     }

@@ -38,6 +38,12 @@
               <text value="consultas"/>
             </properties>
           </component>
+          <component id="95928" class="javax.swing.JButton" binding="comprarBilleteButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="comprar billete"/>
+            </properties>
+          </component>
           <hspacer id="30331">
             <constraints/>
           </hspacer>

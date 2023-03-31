@@ -17,6 +17,7 @@ public class crudPasajeros {
     private JButton mostrarPasajeroButton;
     private JButton eliminarPasajeroButton;
     private JButton mostrarTodosLosPasajerosButton;
+    private JButton comprarBilleteButton;
 
     public crudPasajeros() {
         salirButton.addActionListener(new ActionListener() {
@@ -71,6 +72,12 @@ public class crudPasajeros {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.crearVentana("consultas");
+            }
+        });
+        comprarBilleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.crearVentana("comprarBillete");
             }
         });
     }
