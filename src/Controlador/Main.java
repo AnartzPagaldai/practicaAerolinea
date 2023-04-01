@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 
@@ -278,5 +279,25 @@ public class Main {
                 result.getInt("plazasTuristas"),
                 result.getInt("plazasPrimera")
         );
+    }
+
+    public static String[][] registrarBillete(String tipo, String destino, String procedencia, String fecha) {
+        StringBuilder select = new StringBuilder("select * from vuelos where 0 < " + tipo + " - (select count(*) from registroVuelos)");
+        if (!destino.equals("")) {
+            select.append(" and destino = ").append(destino);
+        }
+        if (!procedencia.equals("")) {
+            select.append(" and procendencia = ").append(procedencia);
+        }
+        if (!fecha.equals("")) {
+            select.append(" and fechaSalida = cast('").append(fecha).append("' AS DATE)");
+        }
+
+        try {
+            return devolverDatosDeObjeto(TVuelos.mostrarTodosLosVuelos(String.valueOf(select)), "error en billete", 6);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }
