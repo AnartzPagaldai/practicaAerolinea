@@ -329,4 +329,12 @@ public class Main {
         lazarError(!bool[0],"ya hay mas de " + vuelo.getPlazaTurista() +" asientos de turista ocupados. ¡Pon mas!");
         lazarError(!bool[1],"ya hay mas de " + vuelo.getPlazaPrimera() +" asientos de primera ocupados. ¡Pon mas!");
     }
+
+    public static boolean validarRegistros(String cod_vuelo) {
+        return TRegistroVuelos.validarRegistros(cod_vuelo);
+    }
+
+    public static void borrarRestrosVuelo(String cod_vuelo) {
+        TRegistroVuelos.borrarRestrosVuelo(cod_vuelo);
+    }
 }

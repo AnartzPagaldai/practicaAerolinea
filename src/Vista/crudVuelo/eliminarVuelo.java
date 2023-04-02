@@ -26,6 +26,12 @@ public class eliminarVuelo {
                 try {
                     Main.validarVacios(new String[]{cod_vuelo.getText()});
                     Main.validarCodigo(cod_vuelo.getText(), true);
+                    if (Main.validarRegistros(cod_vuelo.getText())) {
+                        if (0 == JOptionPane.showConfirmDialog(null,"hay pasajeros con asientos en este vuelo\n ¿seguro que quieres borrarlo?"))
+                            Main.borrarRestrosVuelo(cod_vuelo.getText());
+                        else
+                            throw new Exception("El vuelo no se a borrado");
+                    }
                     resultado.setText(Main.eliminarVuelo(cod_vuelo.getText()));
                 }
                 catch (Exception ex) {

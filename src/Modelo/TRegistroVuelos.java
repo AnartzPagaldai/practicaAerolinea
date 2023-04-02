@@ -127,4 +127,33 @@ public class TRegistroVuelos {
             System.out.println(e.getMessage());
         }
     }
+
+    public static boolean validarRegistros(String cod_vuelo) {
+        try {
+            abriConexion();
+            PreparedStatement ps = con.prepareStatement("select id from registroVuelos where cod_vuelo = ?");
+            ps.setString(1, cod_vuelo);
+            ResultSet result = ps.executeQuery();
+            boolean bool = result.next();
+            BD.cerrarConexion();
+            return bool;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public static void borrarRestrosVuelo(String cod_vuelo) {
+        try {
+            abriConexion();
+            PreparedStatement ps = con.prepareStatement("delete from registroVuelos where cod_vuelo = ?");
+            ps.setString(1, cod_vuelo);
+            ps.executeUpdate();
+            BD.cerrarConexion();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
