@@ -264,10 +264,9 @@ public class Main {
     }
 
     public static String[][] pasajerosPorVuelo(String cod_vuelo) throws Exception {
-        ArrayList<Pasajero> pasajeros = TRegistroVuelos.pasajerosPorVuelo(cod_vuelo);
-        System.out.println(pasajeros);
-
-        String[][] datosVuelos = devolverDatosDeObjeto(pasajeros, "Error", 3);
+        Vuelo vuelo = new Vuelo(cod_vuelo);
+        TRegistroVuelos.pasajerosPorVuelo(vuelo);
+        String[][] datosVuelos = devolverDatosDeObjeto(vuelo.getPasajeros(), "Error", 3);
         ArrayList<String> plazas = TRegistroVuelos.getTipoPlaza();
         for (int i = 0; i < datosVuelos.length; i++) {
             datosVuelos[i][2] = plazas.get(i);
@@ -287,8 +286,8 @@ public class Main {
         );
     }
 
-    public static String[][] registrarBillete(String tipo, String destino, String procedencia, String fecha, String cod_velo) throws Exception{
-        StringBuilder select = new StringBuilder("select * from vuelos where 0 < " + tipo + " - (select count(*) from registroVuelos)");
+    public static String[][] filtrarVuelos(String tipo, String destino, String procedencia, String fecha, String cod_velo) throws Exception{
+        StringBuilder select = new StringBuilder("select * from vuelos where 0 < " + tipo + " - (select count(*) from registroVuelos where cod_vuelo = vuelos.cod_vuelo)");
         if (!cod_velo.equals("")) {
             select.append(" and cod_vuelo = '").append(cod_velo).append("'");
         } else {
@@ -304,5 +303,14 @@ public class Main {
         }
         System.out.println(select);
         return devolverDatosDeObjeto(TVuelos.mostrarTodosLosVuelos(String.valueOf(select)), "no hay plazas libres con esas espcificaciones", 6);
+    }
+    public static String registrarBillete(String dni, String cod_vuelo, String tipoPlaza) throws Exception{
+        String[] objetoRegistro = {cod_vuelo, dni, tipoPlaza};
+        lazarError(!TRegistroVuelos.inserRegistro(objetoRegistro), "Erro al comprar billete");
+        return "El billete se a registrado correctamente";
+    }
+
+    public static void validarPasajeroMismoVuelo(String dni, String cod_vuelo) throws Exception {
+        lazarError(TRegistroVuelos.validarPasajeroMismoVuelo(dni, cod_vuelo), "mismo");
     }
 }

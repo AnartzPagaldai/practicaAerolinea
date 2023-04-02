@@ -30,7 +30,7 @@ public class crearVuelo {
                 resultado.setText("");
                 try {
                     String[] datos = {cod_vuelo.getText().trim(),fechaSalida.getText().trim(),destino.getText().trim(),
-                            procedencia.getText().trim(),plazasTurista.getValue().toString().trim(),plazasTurista.getValue().toString().trim()};
+                            procedencia.getText().trim(),plazasTurista.getValue().toString().trim(),plazasPrimera.getValue().toString().trim()};
                     Main.validarVacios(datos);
                     Main.validarCodigo(datos[0], false);
                     resultado.setText(Main.crearVuelo(datos));

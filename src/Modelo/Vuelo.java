@@ -9,7 +9,11 @@ public class Vuelo {
     private int plazaTurista, plazaPrimera;
     private ArrayList<Pasajero> pasajeros = new ArrayList<>();
 
-    public Vuelo(String cod_vuelo,LocalDate fechaSalida, String destino, String procedencia, int plazaTurista, int plazaPrimera) {
+    public Vuelo(String cod_vuelo) {
+        this.cod_vuelo = cod_vuelo;
+    }
+
+    public Vuelo(String cod_vuelo, LocalDate fechaSalida, String destino, String procedencia, int plazaTurista, int plazaPrimera) {
         this.cod_vuelo = cod_vuelo;
         this.destino = destino;
         this.procedencia = procedencia;

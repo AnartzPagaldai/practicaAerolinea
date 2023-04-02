@@ -17,6 +17,7 @@ public class comprarBillete {
     private JComboBox<String> procedenciaComboBox;
     private JComboBox<String> fechaSalidaComboBox;
     private JComboBox<String> vueloComboBox;
+    private JLabel resultado;
     ActionListener acionComBox;
     ActionListener acionVuelo;
 
@@ -25,7 +26,7 @@ public class comprarBillete {
     }
 
     public comprarBillete() {
-        comboBoxEnable(false);
+        turistaRadioButton.setSelected(true);
         ButtonGroup grupo = new ButtonGroup();
         grupo.add(turistaRadioButton);
         grupo.add(primeraRadioButton);
@@ -33,8 +34,12 @@ public class comprarBillete {
         procedenciaComboBox.addItem(""); procedenciaComboBox.setSelectedItem("");
         fechaSalidaComboBox.addItem(""); fechaSalidaComboBox.setSelectedItem("");
         vueloComboBox.addItem(""); vueloComboBox.setSelectedItem("");
-        registraBillete();
-        //TODO CAMBIAR NOMBRE A RESGISTRARBILLETE Y HACER UNA VALIDACION DE QUE ESE PASAJERO YA TIENE PLAZA EN ESE VUELO
+        filtrarVuelos();
+        try {
+            rellenarPasajeros(Main.mostrarTodosLosPasajeros());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         salirButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -45,27 +50,30 @@ public class comprarBillete {
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                registrarBillete(true);
             }
         });
         turistaRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                comboBoxEnable(true);
-                registraBillete();
+                filtrarVuelos();
             }
         });
         primeraRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                comboBoxEnable(true);
-                registraBillete();
+                filtrarVuelos();
             }
         });
         acionComBox = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registraBillete();
+                filtrarVuelos();
+                if (String.valueOf(fechaSalidaComboBox.getSelectedItem()).equals("") ||
+                        String.valueOf(destinoComboBox.getSelectedItem()).equals("") ||
+                        String.valueOf(procedenciaComboBox.getSelectedItem()).equals("")) {
+                    vueloComboBox.setSelectedItem("");
+                }
             }
         };
         destinoComboBox.addActionListener(acionComBox);
@@ -77,25 +85,28 @@ public class comprarBillete {
                 if (!primeraRadioButton.isSelected() && !turistaRadioButton.isSelected()) {
                     turistaRadioButton.setSelected(true);
                 }
-                registraBillete();
+                filtrarVuelos();
                 removAction();
-                fechaSalidaComboBox.setSelectedIndex(1);
-                destinoComboBox.setSelectedIndex(1);
-                procedenciaComboBox.setSelectedIndex(1);
+                if (!String.valueOf(vueloComboBox.getSelectedItem()).equals("")) {
+                    fechaSalidaComboBox.setSelectedIndex(1);
+                    destinoComboBox.setSelectedIndex(1);
+                    procedenciaComboBox.setSelectedIndex(1);
+                }
                 addAction();
-                comboBoxEnable(true);
             }
         };
         vueloComboBox.addActionListener(acionVuelo);
     }
-    public void registraBillete() {
+    public void filtrarVuelos() {
         try {
             String destinoElegino = (String) destinoComboBox.getSelectedItem();
             String procedenciaElegida = (String) procedenciaComboBox.getSelectedItem();
             String fechaElegida = (String) fechaSalidaComboBox.getSelectedItem();
             String vueloElegino = (String) vueloComboBox.getSelectedItem();
-            String[][] vuelos = Main.registrarBillete((primeraRadioButton.isSelected())? "plazasPrimera" : "plazasTuristas",
+            String[][] vuelos = Main.filtrarVuelos((primeraRadioButton.isSelected())? "plazasPrimera" : "plazasTuristas",
                     destinoElegino, procedenciaElegida, fechaElegida, vueloElegino);
+            if (vuelos[0] == null && vuelos[1] == null && vuelos[2] == null && vuelos[3] == null )
+                throw new Exception("no hay plazas libres con esas espcificaciones");
             removAction();
             rellenarComboBox(destinoComboBox, vuelos, 2, destinoElegino);
             rellenarComboBox(procedenciaComboBox, vuelos, 3, procedenciaElegida);
@@ -104,7 +115,14 @@ public class comprarBillete {
             addAction();
         }
         catch (Exception e) {
-            JOptionPane.showConfirmDialog(null, e.getMessage() + "\n quieres seguir con los datos ya guardados o con el tipo de plaza " + ((primeraRadioButton.isSelected())? "primera" : "turista"));
+            if (1 == JOptionPane.showConfirmDialog(null, "no hay plazas libres con esas espcificaciones\n ¿quieres seguir con los datos ya guardados?")) {
+                removAction();
+                vaciarCombox();
+                addAction();
+                filtrarVuelos();
+            } else {
+                (primeraRadioButton.isSelected()? turistaRadioButton : primeraRadioButton).setSelected(true);
+            }
         }
 
     }
@@ -118,10 +136,10 @@ public class comprarBillete {
         }
         comboBox.setSelectedItem(item);
     }
-    public void comboBoxEnable(boolean bool) {
-        destinoComboBox.setEnabled(bool);
-        procedenciaComboBox.setEnabled(bool);
-        fechaSalidaComboBox.setEnabled(bool);
+    public void rellenarPasajeros(String[][] datos) {
+        for (String[] dato : datos) {
+            pasajerosComboBox.addItem(dato[0] + "    " + dato[1]);
+        }
     }
     public void removAction() {
         destinoComboBox.removeActionListener(acionComBox);
@@ -135,5 +153,32 @@ public class comprarBillete {
         procedenciaComboBox.addActionListener(acionComBox);
         fechaSalidaComboBox.addActionListener(acionComBox);
         vueloComboBox.addActionListener(acionVuelo);
+    }
+
+    public void registrarBillete(boolean bool) {
+        try {
+            resultado.setText("");
+            if (bool) Main.validarPasajeroMismoVuelo(String.valueOf(pasajerosComboBox.getSelectedItem()).substring(0,9), (String) vueloComboBox.getSelectedItem());
+            resultado.setText(Main.registrarBillete(
+                    String.valueOf(pasajerosComboBox.getSelectedItem()).substring(0,9),
+                    (String) vueloComboBox.getSelectedItem(), (primeraRadioButton.isSelected())? "plazasPrimera" : "plazasTuristas"));
+        } catch (Exception ex) {
+            if (ex.getMessage().equals("mismo")){
+                if (0 == JOptionPane.showConfirmDialog(null, "ese pasajero ya tiene asiento en ese vuelo\n" +
+                        "¿seguro que quieres comprar el billete para el mismo?")) {
+                    registrarBillete(false);
+                }
+            }
+            else
+                resultado.setText(ex.getMessage());
+
+        }
+
+    }
+    public void vaciarCombox() {
+        destinoComboBox.setSelectedItem("");
+        procedenciaComboBox.setSelectedItem("");
+        fechaSalidaComboBox.setSelectedItem("");
+        vueloComboBox.setSelectedItem("");
     }
 }
