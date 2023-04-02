@@ -231,22 +231,28 @@ public class Main {
 
     public static <T> String[][] devolverDatosDeObjeto(ArrayList<T> objeto, String error, int num) throws Exception {
         lazarError(objeto == null, error);
+        try {
+            String[][] resultado = new String[objeto.size()][num];
+            if ( num == 6 ) {
+                ArrayList<Vuelo> vuelos = (ArrayList<Vuelo>) objeto;
+                for (int i = 0; i < objeto.size(); i++) {
+                    resultado[i] = arrayDeVuelos(vuelos.get(i));
+                }
+            }
+            else if (num == 2 || num == 3) {
+                ArrayList<Pasajero> pasajeros = (ArrayList<Pasajero>) objeto;
+                for (int i = 0; i < pasajeros.size(); i++) {
+                    resultado[i][0] = pasajeros.get(i).getDni();
+                    resultado[i][1] = pasajeros.get(i).getNombre();
+                }
+            }
+            return resultado;
+        }
+        catch (Exception e) {
+            throw new Exception(error);
+        }
 
-        String[][] resultado = new String[objeto.size()][num];
-        if ( num == 6 ) {
-            ArrayList<Vuelo> vuelos = (ArrayList<Vuelo>) objeto;
-            for (int i = 0; i < objeto.size(); i++) {
-                resultado[i] = arrayDeVuelos(vuelos.get(i));
-            }
-        }
-        else if (num == 2 || num == 3) {
-            ArrayList<Pasajero> pasajeros = (ArrayList<Pasajero>) objeto;
-            for (int i = 0; i < pasajeros.size(); i++) {
-                resultado[i][0] = pasajeros.get(i).getDni();
-                resultado[i][1] = pasajeros.get(i).getNombre();
-            }
-        }
-        return resultado;
+
     }
     public static String[] arrayDeVuelos(Vuelo vuelo) {
         return new String[]{
@@ -281,23 +287,22 @@ public class Main {
         );
     }
 
-    public static String[][] registrarBillete(String tipo, String destino, String procedencia, String fecha) {
+    public static String[][] registrarBillete(String tipo, String destino, String procedencia, String fecha, String cod_velo) throws Exception{
         StringBuilder select = new StringBuilder("select * from vuelos where 0 < " + tipo + " - (select count(*) from registroVuelos)");
-        if (!destino.equals("")) {
-            select.append(" and destino = ").append(destino);
+        if (!cod_velo.equals("")) {
+            select.append(" and cod_vuelo = '").append(cod_velo).append("'");
+        } else {
+            if (!destino.equals("")) {
+                select.append(" and destino = '").append(destino).append("'");
+            }
+            if (!procedencia.equals("")) {
+                select.append(" and procedencia = '").append(procedencia).append("'");
+            }
+            if (!fecha.equals("")) {
+                select.append(" and fechaSalida = cast('").append(fecha).append("' AS DATE)");
+            }
         }
-        if (!procedencia.equals("")) {
-            select.append(" and procendencia = ").append(procedencia);
-        }
-        if (!fecha.equals("")) {
-            select.append(" and fechaSalida = cast('").append(fecha).append("' AS DATE)");
-        }
-
-        try {
-            return devolverDatosDeObjeto(TVuelos.mostrarTodosLosVuelos(String.valueOf(select)), "error en billete", 6);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        System.out.println(select);
+        return devolverDatosDeObjeto(TVuelos.mostrarTodosLosVuelos(String.valueOf(select)), "no hay plazas libres con esas espcificaciones", 6);
     }
 }
