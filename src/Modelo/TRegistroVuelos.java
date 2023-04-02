@@ -83,4 +83,48 @@ public class TRegistroVuelos {
             return false;
         }
     }
+
+    public static boolean[] validarAsientosLibres(Vuelo vuelo) {
+        try {
+            abriConexion();
+            PreparedStatement ps = con.prepareStatement("select cod_vuelo from vuelos where 0 <= ? - (select count(*) from registroVuelos where cod_vuelo = ? and tipoPlaza = 'plazasTuristas')");
+            ps.setInt(1, vuelo.getPlazaTurista());
+            ps.setString(2, vuelo.getCod_vuelo());
+            ResultSet result = ps.executeQuery();
+            boolean bool[] = new boolean[2];
+            bool[0] = result.next();
+
+            ps = con.prepareStatement("select cod_vuelo from vuelos where 0 <= ? - (select count(*) from registroVuelos where cod_vuelo = ? and tipoPlaza = 'plazasPrimera')");
+            ps.setInt(1,vuelo.getPlazaPrimera());
+            ps.setString(2,vuelo.getCod_vuelo());
+            result = ps.executeQuery();
+            bool[1] = result.next();
+            BD.cerrarConexion();
+            return bool;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new boolean[]{false, false};
+        }
+    }
+
+    public static void vuelosPorPasajero(Pasajero pasajero) {
+        try {
+            abriConexion();
+            PreparedStatement ps = con.prepareStatement(
+                    "select v.* from vuelos v, registrovuelos r" +
+                            " where r.dni = ? and v.cod_vuelo = r.cod_vuelo");
+            ps.setString(1,pasajero.getDni());
+            ResultSet result = ps.executeQuery();
+            ArrayList<Vuelo> vuelos = new ArrayList<>();
+            while (result.next()) {
+                vuelos.add(Main.getVuelo(result));
+            }
+            pasajero.setVuelos(vuelos);
+            BD.cerrarConexion();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

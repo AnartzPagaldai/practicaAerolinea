@@ -33,7 +33,6 @@ public class pasajerosPorVuelo {
                     DefaultTableModel model = new DefaultTableModel();
                     Main.annadirColumnasYfilas(model, new String[]{"DNI", "NOMBRE", "PLAZA"}, filas);
                     resultado.setModel(model);
-                    // error desconocido
                 }
                 catch (Exception ex) {
                     error.setText(ex.getMessage());

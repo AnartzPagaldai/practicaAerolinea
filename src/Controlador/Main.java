@@ -228,6 +228,10 @@ public class Main {
         ArrayList<Vuelo> vuelos = TVuelos.mostrarTodosLosVuelos();
         return devolverDatosDeObjeto(vuelos, "ERROR no se an selecianado los vuelos", 6);
     }
+    public static String[][] mostrarTodosLosVuelos(String select) throws Exception {
+        ArrayList<Vuelo> vuelos = TVuelos.mostrarTodosLosVuelos(select);
+        return devolverDatosDeObjeto(vuelos, "ERROR no se an selecianado los vuelos", 6);
+    }
 
     public static <T> String[][] devolverDatosDeObjeto(ArrayList<T> objeto, String error, int num) throws Exception {
         lazarError(objeto == null, error);
@@ -274,6 +278,11 @@ public class Main {
 
         return datosVuelos;
     }
+    public static String[][] vuelosPorPasajero(String dni) throws Exception {
+        Pasajero pasajero = new Pasajero(dni);
+        TRegistroVuelos.vuelosPorPasajero(pasajero);
+        return devolverDatosDeObjeto(pasajero.getVuelos(), "Error", 6);
+    }
 
     public static Vuelo getVuelo(ResultSet result) throws Exception {
          return new Vuelo(
@@ -287,7 +296,7 @@ public class Main {
     }
 
     public static String[][] filtrarVuelos(String tipo, String destino, String procedencia, String fecha, String cod_velo) throws Exception{
-        StringBuilder select = new StringBuilder("select * from vuelos where 0 < " + tipo + " - (select count(*) from registroVuelos where cod_vuelo = vuelos.cod_vuelo)");
+        StringBuilder select = new StringBuilder("select * from vuelos where 0 < " + tipo + " - (select count(*) from registroVuelos where cod_vuelo = vuelos.cod_vuelo and lower(tipoPlaza) = '" + tipo + "')");
         if (!cod_velo.equals("")) {
             select.append(" and cod_vuelo = '").append(cod_velo).append("'");
         } else {
@@ -312,5 +321,12 @@ public class Main {
 
     public static void validarPasajeroMismoVuelo(String dni, String cod_vuelo) throws Exception {
         lazarError(TRegistroVuelos.validarPasajeroMismoVuelo(dni, cod_vuelo), "mismo");
+    }
+
+    public static void validarAsientosLibres(String[] datos) throws Exception {
+        Vuelo vuelo = new Vuelo(datos[0], Integer.parseInt(datos[1]), Integer.parseInt(datos[2]));
+        boolean[] bool = TRegistroVuelos.validarAsientosLibres(vuelo);
+        lazarError(!bool[0],"ya hay mas de " + vuelo.getPlazaTurista() +" asientos de turista ocupados. ¡Pon mas!");
+        lazarError(!bool[1],"ya hay mas de " + vuelo.getPlazaPrimera() +" asientos de primera ocupados. ¡Pon mas!");
     }
 }

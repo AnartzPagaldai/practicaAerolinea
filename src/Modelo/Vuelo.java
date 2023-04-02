@@ -13,6 +13,12 @@ public class Vuelo {
         this.cod_vuelo = cod_vuelo;
     }
 
+    public Vuelo(String cod_vuelo, int plazaTurista, int plazaPrimera) {
+        this.cod_vuelo = cod_vuelo;
+        this.plazaTurista = plazaTurista;
+        this.plazaPrimera = plazaPrimera;
+    }
+
     public Vuelo(String cod_vuelo, LocalDate fechaSalida, String destino, String procedencia, int plazaTurista, int plazaPrimera) {
         this.cod_vuelo = cod_vuelo;
         this.destino = destino;

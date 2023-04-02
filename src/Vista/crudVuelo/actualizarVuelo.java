@@ -53,6 +53,7 @@ public class actualizarVuelo {
                             procedencia.getText().trim(),plazasTurista.getValue().toString().trim(),plazasPrimera.getValue().toString().trim()};
                     Main.validarVacios(datos);
                     Main.validarCodigo(datos[0], true);
+                    Main.validarAsientosLibres(new String[]{datos[0],datos[4], datos[5]});
                     resultado.setText(Main.actualizarVuelo(datos));
                 }
                 catch (Exception e1) {
@@ -70,8 +71,9 @@ public class actualizarVuelo {
                     fechaSalida.setText(LocalDate.parse(datos2[1], DateTimeFormatter.ofPattern("yyyy-MM-dd")).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                     destino.setText(datos2[2]);
                     procedencia.setText(datos2[3]);
-                    plazasPrimera.setValue(Integer.parseInt(datos2[4]));
-                    plazasTurista.setValue(Integer.parseInt(datos2[5]));
+                    plazasTurista.setValue(Integer.parseInt(datos2[4]));
+                    plazasPrimera.setValue(Integer.parseInt(datos2[5]));
+
                     resultado.setText("");
                     aceptarButton.setEnabled(true);
                     setEnableCheckBox(true);

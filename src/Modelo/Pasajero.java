@@ -11,6 +11,10 @@ public class Pasajero {
         this.nombre = nombre;
     }
 
+    public Pasajero(String dni) {
+        this.dni = dni;
+    }
+
     public String getDni() {
         return dni;
     }
